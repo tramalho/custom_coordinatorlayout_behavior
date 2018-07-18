@@ -21,6 +21,26 @@ class MainActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = Adapter(arrayOf(1, 2, 3, 4, 5))
         }
+
+
+        toolbar?.let {
+            setSupportActionBar(toolbar)
+            it.updateQuickFilter(createFilters())
+        }
+    }
+
+    private fun createFilters(): List<HeaderQuickFilterItem> {
+
+        val fakeData: ArrayList<HeaderQuickFilterItem> = arrayListOf()
+
+        for (idx in 1..10) {
+            fakeData.add(HeaderQuickFilterItem(
+                    "label ${idx}",
+                    "label ${idx} selected")
+            )
+        }
+
+        return fakeData
     }
 }
 
@@ -30,7 +50,7 @@ class Adapter(private val dataSet: Array<Int>) : RecyclerView.Adapter<Adapter.Vi
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val cardView =
-            LayoutInflater.from(parent.context).inflate(R.layout.recycler_item, parent, false)
+                LayoutInflater.from(parent.context).inflate(R.layout.recycler_item, parent, false)
 
         return ViewHolder(cardView)
     }
