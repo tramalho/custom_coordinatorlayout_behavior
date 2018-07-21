@@ -61,18 +61,16 @@ class ToolbarQuickFilterAdapter(var filters: List<HeaderQuickFilterItem>,
         }
 
         private fun configState(headerQuickFilterItem: HeaderQuickFilterItem) {
-            val label = when (headerQuickFilterItem.selected) {
+            when (headerQuickFilterItem.selected) {
                 true -> {
                     checkeds.add(headerQuickFilterItem)
-                    headerQuickFilterItem.selectedLabel
                 }
                 else -> {
                     checkeds.remove(headerQuickFilterItem)
-                    headerQuickFilterItem.label
                 }
             }
 
-            super.itemView.checkboxQuickFilter.text = label
+            super.itemView.checkboxQuickFilter.text = headerQuickFilterItem.label
             super.itemView.checkboxQuickFilter.isChecked = headerQuickFilterItem.selected
         }
     }

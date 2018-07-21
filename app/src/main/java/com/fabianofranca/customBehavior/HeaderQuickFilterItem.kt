@@ -2,6 +2,6 @@ package com.fabianofranca.customBehavior
 
 data class HeaderQuickFilterItem(
         val label : String,
-        val selectedLabel : String,
-        var selected : Boolean = false
+        var selected : Boolean = false,
+        val type : FilterType
 )

@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.activity_main.*
@@ -29,14 +30,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+/*    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
+    }*/
+
+
     private fun createFilters(): List<HeaderQuickFilterItem> {
 
         val fakeData: ArrayList<HeaderQuickFilterItem> = arrayListOf()
 
-        for (idx in 1..10) {
+        for (idx in 1..7) {
             fakeData.add(HeaderQuickFilterItem(
                     "label ${idx}",
-                    "label ${idx} selected")
+                    type = FilterType.PERIOD)
             )
         }
 
