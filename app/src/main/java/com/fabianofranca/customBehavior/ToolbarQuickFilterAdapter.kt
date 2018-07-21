@@ -11,11 +11,12 @@ import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.DrawableContainer.DrawableContainerState
 
 
-class ToolbarQuickFilterAdapter(var filters: List<HeaderQuickFilterItem>,
-                                val onCheckedListener: OnCheckedListener)
+class ToolbarQuickFilterAdapter(var filters: List<HeaderQuickFilterItem>)
     : RecyclerView.Adapter<QuickFilterHolder>() {
 
     private val checkeds: ArrayList<HeaderQuickFilterItem> = arrayListOf()
+
+    var onCheckedListener: OnCheckedListener? = null
 
     interface OnCheckedListener {
         fun onClicked(headerQuickFilterItem: ArrayList<HeaderQuickFilterItem>)
@@ -37,7 +38,7 @@ class ToolbarQuickFilterAdapter(var filters: List<HeaderQuickFilterItem>,
         holder.bind(filters[position])
     }
 
-    class QuickFilterHolder(itemView: View?, var onCheckedListener: OnCheckedListener,
+    class QuickFilterHolder(itemView: View?, var onCheckedListener: OnCheckedListener?,
                             val checkeds: ArrayList<HeaderQuickFilterItem>)
         : RecyclerView.ViewHolder(itemView) {
 
@@ -56,7 +57,9 @@ class ToolbarQuickFilterAdapter(var filters: List<HeaderQuickFilterItem>,
 
                 configState(headerQuickFilterItem)
 
-                onCheckedListener.onClicked(checkeds)
+                if (isChecked) {
+                    onCheckedListener?.onClicked(checkeds)
+                }
             }
         }
 

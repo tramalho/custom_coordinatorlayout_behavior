@@ -4,7 +4,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">#ec7000</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark1</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@color/colorBackground</item>
         <!--<item name="android:actionOverflowButtonStyle">@style/MyActionButtonOverflow</item>-->
@@ -16,6 +16,13 @@
         <item name="android:minWidth">0dp</item>
         <item name="android:background">@color/colorPrimary</item>
         <item name="android:contentDescription">@string/app_name</item>
+    </style>
+
+    <style name="MySeekBar" parent="Widget.AppCompat.SeekBar">
+        <item name="android:progressDrawable">@drawable/seekbar</item>
+        <item name="android:thumb">@drawable/custom_thumb</item>
+        <item name="android:maxHeight">2dp</item>
+        <item name="android:minHeight">2dp</item>
     </style>
 
 </resources>

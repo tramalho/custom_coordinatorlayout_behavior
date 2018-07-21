@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), CustomToolbar.OnClickItemListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +28,8 @@ class MainActivity : AppCompatActivity() {
             setSupportActionBar(toolbar)
             it.updateQuickFilter(createFilters())
         }
+
+        toolbar?.listener = this
     }
 
 /*    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -49,6 +51,15 @@ class MainActivity : AppCompatActivity() {
 
         return fakeData
     }
+
+    override fun onClickFilter(headerQuickFilterItem: ArrayList<HeaderQuickFilterItem>) {
+        val bottomSheetDialogFragment = BottomSheetDialogFragment()
+        bottomSheetDialogFragment.show(supportFragmentManager, BottomSheetDialogFragment::javaClass.name)
+    }
+
+    override fun onClickMenu(headerQuickFilterItem: HeaderQuickFilterItem) {
+    }
+
 }
 
 class Adapter(private val dataSet: Array<Int>) : RecyclerView.Adapter<Adapter.ViewHolder>() {

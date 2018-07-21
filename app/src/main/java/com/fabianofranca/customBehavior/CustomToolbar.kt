@@ -1,47 +1,40 @@
 package com.fabianofranca.customBehavior
 
 import android.content.Context
-import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.widget.PopupMenu
-import android.widget.Toast
 import kotlinx.android.synthetic.main.custom_toolbar.view.*
 
 
 class CustomToolbar @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : Toolbar(context, attrs, defStyleAttr), ToolbarQuickFilterAdapter.OnCheckedListener {
+) : Toolbar(context, attrs, defStyleAttr) {
 
+    interface OnClickItemListener {
+        fun onClickFilter(headerQuickFilterItem: ArrayList<HeaderQuickFilterItem>)
+        fun onClickMenu(headerQuickFilterItem: HeaderQuickFilterItem)
+    }
 
     private lateinit var dropDownMenu: PopupMenu
 
-    private var bgColor: Int
-    private var textColor: Int
+    var listener: OnClickItemListener? = null
+    set(value) {
+        filterRV.adapter?.let {
+            it as ToolbarQuickFilterAdapter
+           it.onCheckedListener = ClickItem(value)
+        }
+    }
 
     init {
 
         inflate(context, R.layout.custom_toolbar, this)
 
-        val t = context.theme
-
-        val a = t.obtainStyledAttributes(attrs, com.fabianofranca.customBehavior.R.styleable.CustomToolbar, 0, 0)
-
-        bgColor = a.getColor(R.styleable.CustomToolbar_menuBGColor, getDefaultColor(android.R.color.white))
-        textColor = a.getColor(R.styleable.CustomToolbar_menuTextColor, getDefaultColor(R.color.colorPrimary))
-
-        a.recycle()
-
         configRecyclerView(context)
 
         configDropDownMenu()
     }
-
-    private fun getDefaultColor(color: Int): Int {
-        return ResourcesCompat.getColor(resources, color, context.theme)
-    }
-
 
     private fun configDropDownMenu() {
 
@@ -66,7 +59,7 @@ class CustomToolbar @JvmOverloads constructor(
         filterRV.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
-        filterRV.adapter = ToolbarQuickFilterAdapter(arrayListOf(), this)
+        filterRV.adapter = ToolbarQuickFilterAdapter(arrayListOf())
     }
 
     fun updateQuickFilter(filters: List<HeaderQuickFilterItem>) {
@@ -76,14 +69,10 @@ class CustomToolbar @JvmOverloads constructor(
         toolbarQuickFilterAdapter.notifyDataSetChanged()
     }
 
-    override fun onClicked(headerQuickFilterItem: ArrayList<HeaderQuickFilterItem>) {
 
-        val builder = StringBuilder()
-
-        headerQuickFilterItem.forEach {
-            builder.append(it.label).append("\n")
+    internal class ClickItem(var listener: OnClickItemListener?) : ToolbarQuickFilterAdapter.OnCheckedListener {
+        override fun onClicked(headerQuickFilterItem: ArrayList<HeaderQuickFilterItem>) {
+            listener?.onClickFilter(headerQuickFilterItem)
         }
-
-        Toast.makeText(context, builder.toString(), Toast.LENGTH_SHORT).show()
     }
 }
