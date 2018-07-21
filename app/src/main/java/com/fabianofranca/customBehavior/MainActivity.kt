@@ -38,26 +38,26 @@ class MainActivity : AppCompatActivity(), CustomToolbar.OnClickItemListener {
     }*/
 
 
-    private fun createFilters(): List<HeaderQuickFilterItem> {
+    private fun createFilters(): List<CustomToolbar.HeaderQuickFilterItem> {
 
-        val fakeData: ArrayList<HeaderQuickFilterItem> = arrayListOf()
+        val fakeData: ArrayList<CustomToolbar.HeaderQuickFilterItem> = arrayListOf()
 
         for (idx in 1..7) {
-            fakeData.add(HeaderQuickFilterItem(
-                    "label ${idx}",
-                    type = FilterType.PERIOD)
+            fakeData.add(CustomToolbar.HeaderQuickFilterItem(
+                    "label ${idx}")
             )
         }
 
         return fakeData
     }
 
-    override fun onClickFilter(headerQuickFilterItem: ArrayList<HeaderQuickFilterItem>) {
+    override fun onClickFilter(headerQuickFilterItem: ArrayList<CustomToolbar.HeaderQuickFilterItem>) {
         val bottomSheetDialogFragment = BottomSheetDialogFragment()
         bottomSheetDialogFragment.show(supportFragmentManager, BottomSheetDialogFragment::javaClass.name)
     }
 
-    override fun onClickMenu(headerQuickFilterItem: HeaderQuickFilterItem) {
+    override fun onClickMenu(headerQuickFilterItem: CustomToolbar.HeaderQuickFilterItem) {
+
     }
 
 }

@@ -7,19 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import com.fabianofranca.customBehavior.ToolbarQuickFilterAdapter.QuickFilterHolder
 import kotlinx.android.synthetic.main.quick_item.view.*
-import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.DrawableContainer.DrawableContainerState
 
 
-class ToolbarQuickFilterAdapter(var filters: List<HeaderQuickFilterItem>)
+class ToolbarQuickFilterAdapter(var filters: List<CustomToolbar.HeaderQuickFilterItem>)
     : RecyclerView.Adapter<QuickFilterHolder>() {
 
-    private val checkeds: ArrayList<HeaderQuickFilterItem> = arrayListOf()
+    private val checkeds: ArrayList<CustomToolbar.HeaderQuickFilterItem> = arrayListOf()
 
     var onCheckedListener: OnCheckedListener? = null
 
     interface OnCheckedListener {
-        fun onClicked(headerQuickFilterItem: ArrayList<HeaderQuickFilterItem>)
+        fun onClicked(headerQuickFilterItem: ArrayList<CustomToolbar.HeaderQuickFilterItem>)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuickFilterHolder {
@@ -39,17 +37,17 @@ class ToolbarQuickFilterAdapter(var filters: List<HeaderQuickFilterItem>)
     }
 
     class QuickFilterHolder(itemView: View?, var onCheckedListener: OnCheckedListener?,
-                            val checkeds: ArrayList<HeaderQuickFilterItem>)
+                            val checkeds: ArrayList<CustomToolbar.HeaderQuickFilterItem>)
         : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(headerQuickFilterItem: HeaderQuickFilterItem) {
+        fun bind(headerQuickFilterItem: CustomToolbar.HeaderQuickFilterItem) {
 
             configState(headerQuickFilterItem)
 
             configureListener(headerQuickFilterItem)
         }
 
-        private fun configureListener(headerQuickFilterItem: HeaderQuickFilterItem) {
+        private fun configureListener(headerQuickFilterItem: CustomToolbar.HeaderQuickFilterItem) {
 
             super.itemView.checkboxQuickFilter.setOnCheckedChangeListener { _, isChecked ->
 
@@ -63,7 +61,7 @@ class ToolbarQuickFilterAdapter(var filters: List<HeaderQuickFilterItem>)
             }
         }
 
-        private fun configState(headerQuickFilterItem: HeaderQuickFilterItem) {
+        private fun configState(headerQuickFilterItem: CustomToolbar.HeaderQuickFilterItem) {
             when (headerQuickFilterItem.selected) {
                 true -> {
                     checkeds.add(headerQuickFilterItem)

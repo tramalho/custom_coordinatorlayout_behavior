@@ -20,12 +20,12 @@ class CustomToolbar @JvmOverloads constructor(
     private lateinit var dropDownMenu: PopupMenu
 
     var listener: OnClickItemListener? = null
-    set(value) {
-        filterRV.adapter?.let {
-            it as ToolbarQuickFilterAdapter
-           it.onCheckedListener = ClickItem(value)
+        set(value) {
+            filterRV.adapter?.let {
+                it as ToolbarQuickFilterAdapter
+                it.onCheckedListener = ClickItem(value)
+            }
         }
-    }
 
     init {
 
@@ -62,7 +62,7 @@ class CustomToolbar @JvmOverloads constructor(
         filterRV.adapter = ToolbarQuickFilterAdapter(arrayListOf())
     }
 
-    fun updateQuickFilter(filters: List<HeaderQuickFilterItem>) {
+    fun updateQuickFilter(filters: List<CustomToolbar.HeaderQuickFilterItem>) {
         populateDropDownMenu(filters)
         val toolbarQuickFilterAdapter = filterRV.adapter as ToolbarQuickFilterAdapter
         toolbarQuickFilterAdapter.filters = filters
@@ -71,8 +71,13 @@ class CustomToolbar @JvmOverloads constructor(
 
 
     internal class ClickItem(var listener: OnClickItemListener?) : ToolbarQuickFilterAdapter.OnCheckedListener {
-        override fun onClicked(headerQuickFilterItem: ArrayList<HeaderQuickFilterItem>) {
+        override fun onClicked(headerQuickFilterItem: ArrayList<CustomToolbar.HeaderQuickFilterItem>) {
             listener?.onClickFilter(headerQuickFilterItem)
         }
     }
+
+    data class HeaderQuickFilterItem(
+            val label: String,
+            var selected: Boolean = false
+    )
 }
