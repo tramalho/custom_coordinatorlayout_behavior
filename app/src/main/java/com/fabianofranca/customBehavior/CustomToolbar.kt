@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.widget.PopupMenu
+import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.custom_toolbar.view.*
 
 
@@ -13,7 +14,7 @@ class CustomToolbar @JvmOverloads constructor(
 ) : Toolbar(context, attrs, defStyleAttr) {
 
     interface OnClickItemListener {
-        fun onClickFilter(headerQuickFilterItem: ArrayList<HeaderQuickFilterItem>)
+        fun onClickFilter(headerQuickFilterItem: HeaderQuickFilterItem)
         fun onClickMenu(headerQuickFilterItem: HeaderQuickFilterItem)
     }
 
@@ -62,22 +63,27 @@ class CustomToolbar @JvmOverloads constructor(
         filterRV.adapter = ToolbarQuickFilterAdapter(arrayListOf())
     }
 
-    fun updateQuickFilter(filters: List<CustomToolbar.HeaderQuickFilterItem>) {
+    fun updateQuickFilter(filters: ArrayList<CustomToolbar.HeaderQuickFilterItem>) {
         populateDropDownMenu(filters)
         val toolbarQuickFilterAdapter = filterRV.adapter as ToolbarQuickFilterAdapter
         toolbarQuickFilterAdapter.filters = filters
         toolbarQuickFilterAdapter.notifyDataSetChanged()
     }
 
+    fun updateItem(headerQuickFilterItem: HeaderQuickFilterItem) {
+        val adapter = filterRV.adapter as ToolbarQuickFilterAdapter
+        adapter.updateItem(headerQuickFilterItem)
+    }
+
 
     internal class ClickItem(var listener: OnClickItemListener?) : ToolbarQuickFilterAdapter.OnCheckedListener {
-        override fun onClicked(headerQuickFilterItem: ArrayList<CustomToolbar.HeaderQuickFilterItem>) {
+        override fun onClicked(headerQuickFilterItem: CustomToolbar.HeaderQuickFilterItem) {
             listener?.onClickFilter(headerQuickFilterItem)
         }
     }
 
     data class HeaderQuickFilterItem(
-            val label: String,
+            var label: String,
             var selected: Boolean = false
     )
 }

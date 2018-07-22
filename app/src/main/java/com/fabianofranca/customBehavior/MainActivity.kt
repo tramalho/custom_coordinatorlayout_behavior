@@ -9,6 +9,7 @@ import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 
 
 class MainActivity : AppCompatActivity(), CustomToolbar.OnClickItemListener {
@@ -38,7 +39,7 @@ class MainActivity : AppCompatActivity(), CustomToolbar.OnClickItemListener {
     }*/
 
 
-    private fun createFilters(): List<CustomToolbar.HeaderQuickFilterItem> {
+    private fun createFilters(): ArrayList<CustomToolbar.HeaderQuickFilterItem> {
 
         val fakeData: ArrayList<CustomToolbar.HeaderQuickFilterItem> = arrayListOf()
 
@@ -51,9 +52,22 @@ class MainActivity : AppCompatActivity(), CustomToolbar.OnClickItemListener {
         return fakeData
     }
 
-    override fun onClickFilter(headerQuickFilterItem: ArrayList<CustomToolbar.HeaderQuickFilterItem>) {
-        val bottomSheetDialogFragment = BottomSheetDialogFragment()
+    override fun onClickFilter(headerQuickFilterItem: CustomToolbar.HeaderQuickFilterItem) {
+        val bottomSheetDialogFragment = BottomSheetDialogFragment().apply {
+            callback = {title ->
+                updateItem(headerQuickFilterItem, title)
+            }
+        }
         bottomSheetDialogFragment.show(supportFragmentManager, BottomSheetDialogFragment::javaClass.name)
+    }
+
+    private fun updateItem(headerQuickFilterItem: CustomToolbar.HeaderQuickFilterItem, title: String) {
+
+        with(headerQuickFilterItem) {
+            label = "${title} ${label}"
+        }
+
+        toolbar.updateItem(headerQuickFilterItem)
     }
 
     override fun onClickMenu(headerQuickFilterItem: CustomToolbar.HeaderQuickFilterItem) {

@@ -1,6 +1,5 @@
 package com.fabianofranca.customBehavior
 
-import android.graphics.drawable.StateListDrawable
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -9,21 +8,19 @@ import com.fabianofranca.customBehavior.ToolbarQuickFilterAdapter.QuickFilterHol
 import kotlinx.android.synthetic.main.quick_item.view.*
 
 
-class ToolbarQuickFilterAdapter(var filters: List<CustomToolbar.HeaderQuickFilterItem>)
+class ToolbarQuickFilterAdapter(var filters: ArrayList<CustomToolbar.HeaderQuickFilterItem>)
     : RecyclerView.Adapter<QuickFilterHolder>() {
-
-    private val checkeds: ArrayList<CustomToolbar.HeaderQuickFilterItem> = arrayListOf()
 
     var onCheckedListener: OnCheckedListener? = null
 
     interface OnCheckedListener {
-        fun onClicked(headerQuickFilterItem: ArrayList<CustomToolbar.HeaderQuickFilterItem>)
+        fun onClicked(headerQuickFilterItem: CustomToolbar.HeaderQuickFilterItem)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuickFilterHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = layoutInflater.inflate(R.layout.quick_item, parent, false)
-        val holder = QuickFilterHolder(view, onCheckedListener, checkeds)
+        val holder = QuickFilterHolder(view, onCheckedListener)
         holder.setIsRecyclable(false)
         return holder
     }
@@ -36,8 +33,16 @@ class ToolbarQuickFilterAdapter(var filters: List<CustomToolbar.HeaderQuickFilte
         holder.bind(filters[position])
     }
 
-    class QuickFilterHolder(itemView: View?, var onCheckedListener: OnCheckedListener?,
-                            val checkeds: ArrayList<CustomToolbar.HeaderQuickFilterItem>)
+    fun updateItem(headerQuickFilterItem: CustomToolbar.HeaderQuickFilterItem) {
+
+        if (filters.contains(headerQuickFilterItem)) {
+            val indexOf = filters.indexOf(headerQuickFilterItem)
+            filters.set(indexOf, headerQuickFilterItem)
+            notifyDataSetChanged()
+        }
+    }
+
+    class QuickFilterHolder(itemView: View?, var onCheckedListener: OnCheckedListener?)
         : RecyclerView.ViewHolder(itemView) {
 
         fun bind(headerQuickFilterItem: CustomToolbar.HeaderQuickFilterItem) {
@@ -56,21 +61,12 @@ class ToolbarQuickFilterAdapter(var filters: List<CustomToolbar.HeaderQuickFilte
                 configState(headerQuickFilterItem)
 
                 if (isChecked) {
-                    onCheckedListener?.onClicked(checkeds)
+                    onCheckedListener?.onClicked(headerQuickFilterItem)
                 }
             }
         }
 
         private fun configState(headerQuickFilterItem: CustomToolbar.HeaderQuickFilterItem) {
-            when (headerQuickFilterItem.selected) {
-                true -> {
-                    checkeds.add(headerQuickFilterItem)
-                }
-                else -> {
-                    checkeds.remove(headerQuickFilterItem)
-                }
-            }
-
             super.itemView.checkboxQuickFilter.text = headerQuickFilterItem.label
             super.itemView.checkboxQuickFilter.isChecked = headerQuickFilterItem.selected
         }
